@@ -11,7 +11,9 @@ app = Flask(__name__)
 
 model = utils.load_model(MODEL_FILENAME)
 
-camera = utils.cv2.VideoCapture(0)
+if os.environ.get('WERKZEUG_RUN_MAIN') or Flask.debug is False:
+    camera = utils.cv2.VideoCapture(0)
+
 
 global capture, switch
 
@@ -35,7 +37,7 @@ def gen_frames():
                 utils.cv2.imwrite(p, frame)
 
             try:
-                ret, buffer = utils.cv2.imencode('.jpg', utils.cv2.flip(frame,1))
+                ret, buffer = utils.cv2.imencode('.jpg', frame)
                 frame = buffer.tobytes()
                 yield (b'--frame\r\n'
                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
@@ -44,9 +46,6 @@ def gen_frames():
         else:
             pass
 
-@app.route("/")
-def hello_world():
-    return render_template('base.html')
 
 @app.route("/predict")
 def predict():
@@ -60,7 +59,12 @@ def predict():
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/requests',methods=['POST','GET'])
+
+@app.route('/camera')
+def take_picture():
+    return render_template('camera.html')
+
+@app.route('/',methods=['POST','GET'])
 def tasks():
     global switch, camera
     if request.method == 'POST':
@@ -74,12 +78,13 @@ def tasks():
                 camera.release()
                 utils.cv2.destroyAllWindows()
             else:
-                camera = utils.cv2.VideoCapture(0)
+                if os.environ.get('WERKZEUG_RUN_MAIN') or Flask.debug is False:
+                    camera = utils.cv2.VideoCapture(0)
                 switch = 1
                                      
     elif request.method == 'GET':
-        return render_template('camera.html')
-    return render_template('camera.html')
+        return render_template('cafe.html')
+    return render_template('cafe.html')
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
