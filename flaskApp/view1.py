@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, Blueprint
 
 import model.utils as utils
 import model.predictions as pred
@@ -7,7 +7,7 @@ import os, datetime
 
 MODEL_FILENAME = "model.h5"
 
-app = Flask(__name__)
+bp = Blueprint('view1', __name__)
 
 model = utils.load_model(MODEL_FILENAME)
 
@@ -50,7 +50,7 @@ def gen_frames():
             pass
 
 
-@app.route("/predict")
+@bp.route("/predict")
 def predict():
     utils.take_picture()
     image = utils.read_image("test_img.jpg")
@@ -58,12 +58,12 @@ def predict():
     accuracy, label_predicted, rest = pred.get_class(prediction) #rest of probabilities of classes in rest
     return render_template('pediction.html', label=label_predicted, accuracy=accuracy)
 
-@app.route('/video_feed')
+@bp.route('/video_feed')
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-@app.route('/',methods=['POST','GET'])
+@bp.route('/',methods=['POST','GET'])
 def tasks():
     global switch, camera
     if request.method == 'POST':
@@ -85,6 +85,3 @@ def tasks():
     elif request.method == 'GET':
         return render_template('index.html')
     return render_template('index.html')
-
-if __name__ == '__main__':
-    app.run(debug=True)

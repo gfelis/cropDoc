@@ -1,4 +1,4 @@
-from model.utils import *
+from utils import *
 
 import pandas as pd
 
