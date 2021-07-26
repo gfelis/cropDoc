@@ -1,3 +1,4 @@
 .vscode/
 __pycache__/
 parser/xls/badly_formatted/
+shots/
