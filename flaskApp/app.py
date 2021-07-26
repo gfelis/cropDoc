@@ -14,14 +14,12 @@ model = utils.load_model(MODEL_FILENAME)
 if os.environ.get('WERKZEUG_RUN_MAIN') or Flask.debug is False:
     camera = utils.cv2.VideoCapture(0)
 
-def get_default_photo_name():
-    return str(datetime.datetime.now()).replace(";", '')
 
 global capture, switch, photo_name
 
 capture = 0
 switch = 1
-photo_name = get_default_photo_name()
+photo_name = None
 
 try:
     os.mkdir('./shots')
@@ -33,11 +31,11 @@ def gen_frames():
     while True:
         success, frame = camera.read() 
         if success:
-            if capture:
+            if capture and photo_name:
                 capture = 0
                 p = os.path.sep.join(['shots', photo_name + ".png"])
+                photo_name = None
                 utils.cv2.imwrite(p, frame)
-                photo_name = get_default_photo_name()
 
             try:
                 ret, buffer = utils.cv2.imencode('.jpg', frame)
@@ -70,7 +68,7 @@ def tasks():
         if request.form.get('click') == 'Capture':
             global capture, photo_name
             capture = 1
-            photo_name = request.form.get('name')
+            photo_name = request.form.get('photo_name')
         elif  request.form.get('stop') == 'Stop/Start':
             
             if switch == 1:
