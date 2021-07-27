@@ -2,11 +2,17 @@
     <head>
     </head>
     <body>
-        <p> Predicted {{label}} with {{accuracy[0]}} accuracy.</p>
-        <button id=b1, onclick="myFunction()">Click me</button>
-        <script type="text/javascript" src="js/test.js"></script>
-
+        <p> Diagnosing image: {{photo}}. Predicted {{label}} with {{accuracy[0]}} accuracy.</p>
+        <img src="../static/shots/{{photo}}" class="w3-image" style="width:100%">
+        <button id=myButton>Make new prediction</button>
     </body>
+
+<script>
+    document.getElementById("myButton").onclick = function () {
+        window.location.href = "../#actions";
+    };
+</script>
+    
 </html>
 
 

@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
 <link rel="stylesheet" href="../static/css/style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <body>
 
 <!-- Links (sit on top) -->
@@ -67,10 +69,10 @@
     <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">ACTIONS</span></h5>
   
     <div class="w3-row w3-center w3-card w3-padding">
-      <form id="captureForm" method="post" action="{{ url_for('tasks') }}" onsubmit="return submitForm(event);">
+      <form id="captureForm" method="post" action="">
           <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Photo name" name="photo_name" required name="Name"></p>
           <input id="hiddenAction" type="hidden" name="click" value="Capture"/>
-          <p><button id="captureButton" class="w3-button w3-black" type="submit"><i class="fa fa-camera"></i></button></p>
+          <p><button id="captureButton" class="w3-button w3-black" type="submit" onclick=""><i class="fa fa-camera"></i></button></p>
           <div id="myModal" class="modal" aria-hidden="true">
             <!-- Modal content -->
             <div class="modal-content">

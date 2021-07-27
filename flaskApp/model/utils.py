@@ -3,9 +3,10 @@ import cv2
 import numpy as np
 import tensorflow as tf
 
+SHOTS_PATH = "flaskApp/static/shots/"
 
 def read_image(image_path: str) -> np.ndarray:
-    return cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
+    return cv2.cvtColor(cv2.imread(SHOTS_PATH + image_path), cv2.COLOR_BGR2RGB)
     
 def load_model(file_name: str)-> tf.keras.Sequential:
     return tf.keras.models.load_model("flaskApp/model/" + file_name) 

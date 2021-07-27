@@ -13,14 +13,23 @@ function openMenu(evt, action) {
     evt.currentTarget.firstElementChild.className += " w3-dark-grey";
   }
 
-function submitClick(event){
-  event.preventDefault();
-  var form = document.getElementById("captureForm");
-  if (document.getElementsByName("photo_name")[0].value){
-    form.submit();
-    return false;
-  }
-}
+
+$('#captureForm').submit(function(e){
+  e.preventDefault();
+  $.ajax({
+    url: '/api/take_photo',
+    type: 'post',
+    data:$('#captureForm').serialize(),
+    success:function(){
+      alert("worked");
+    }
+  });
+});
+
+document.getElementById("captureForm").onsubmit = function () {
+  window.location.href = "/predict";
+};
+
 /*
 function checkFileExist(urlToFile) {
     var xhr = new XMLHttpRequest();
