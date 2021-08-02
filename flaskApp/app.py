@@ -4,7 +4,7 @@ from flask_cors import CORS, cross_origin
 import model.utils as utils
 import model.predictions as pred
 
-import os
+import os, time
 
 MODEL_FILENAME = "model.h5"
 IMG_FOLDER = "flaskApp/static/shots"
@@ -52,6 +52,7 @@ def gen_frames():
 
 @app.route("/predict")
 def predict():
+    time.sleep(3)
     image = utils.read_image(photo_name + ".png")
     prediction = pred.predict(image, model)
     accuracy, label_predicted, rest = pred.get_class(prediction) #rest of probabilities of classes in rest
