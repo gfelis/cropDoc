@@ -11,6 +11,9 @@ def read_image(image_path: str) -> np.ndarray:
 def load_model(file_name: str)-> tf.keras.Sequential:
     return tf.keras.models.load_model("flaskApp/model/" + file_name) 
 
+def load_tflite_interpreter(file_name: str):
+    return tf.lite.Interpreter(model_path="flaskApp/model/" + file_name)    
+
 def take_picture():
     cam = cv2.VideoCapture(0)   # 0 -> index of camera
     s, img = cam.read()

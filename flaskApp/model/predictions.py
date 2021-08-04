@@ -2,11 +2,26 @@ from model.utils import *
 
 import pandas as pd
 
+TF_MODEL_LABELS = ['frog_eye_leaf_spot', 'healthy', 'scab', 'complex', 'powdery_mildew', 'rust']
+TF_LITE_LABELS = ['rust', 'powdery_mildew', 'frog_eye_leaf_spot', 'complex', 'scab', 'healthy']
+
 def process(img):
     return cv2.resize(img/255.0, (512, 512)).reshape(-1, 512, 512, 3)
 
 def predict(img, model):
-    return model.layers[2](model.layers[1](model.layers[0](process(img)))).numpy()[0]
+    return get_class(model.layers[2](model.layers[1](model.layers[0](process(img)))).numpy()[0], TF_MODEL_LABELS)
+
+def predict_tflite(img, interpreter):
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+
+    input_data = np.array(process(img), dtype=np.float32)
+    
+    interpreter.set_tensor(input_details[0]['index'], input_data)
+
+    interpreter.invoke()
+    
+    return get_class(interpreter.get_tensor(output_details[0]['index']), TF_LITE_LABELS)
 
 def find_second_max(list):
     count = 0
@@ -34,8 +49,9 @@ def find_maximums(list):
             max3 = i 
     return max2, max3
 
-def get_class(prediction: np.ndarray):
-    classes = pd.Index(['frog_eye_leaf_spot', 'healthy', 'scab', 'complex', 'powdery_mildew', 'rust'])
+def get_class(prediction: np.ndarray, labels_order: list()):
+    classes = pd.Index(labels_order)
+    prediction = prediction[0]
     percentage = prediction.max()
     class_index = np.where(prediction == percentage)[0][0]
     if percentage <= 0.75:
