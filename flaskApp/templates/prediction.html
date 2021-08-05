@@ -1,19 +1,53 @@
-<html>
-    <head>
-    </head>
-    <body>
-        <p> Diagnosing image: {{photo}}. Predicted {{label}} with {{accuracy[0]}} accuracy.</p>
-        <img src="../static/shots/{{photo}}" class="w3-image" style="width:100%">
-        <button id=myButton>Make new prediction</button>
-    </body>
+{% extends "index.html" %}
+
+{% block body %}
+<body>
+    <main id="pagecontent" class="w3-sand w3-large"></main>
+    <div class="w3-container" id="predictions">
+        <div class="w3-content" style="max-width:700px">
+       
+          <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">PREDICTIONS</span></h5>
+      
+          <div id="Capture" class="w3-container w3-padding-48 w3-card">
+            
+            <p> <span class="center"> Diagnosed image: {{photo}}. Predicted <span class="w3-tag">{{label}}</span> with {{accuracy[0]}} accuracy.</span></p>
+      
+            <img src="../static/shots/{{photo}}" height="80%" class="center">
+          </div>
+
+          <div class="w3-row w3-center w3-card w3-padding">
+            <form id="classifyForm" method="post" action="">
+                <p><input class="w3-input w3-padding-16 w3-border" type="checkbox" id="rust" value="rust"></p>
+                <label for="rust"> Rust  </label>
+                <p><input class="w3-input w3-padding-16 w3-border" type="checkbox" id="frog eye leaf spot" value="frog eye leaf spot"></p>
+                <label for="frog eye leaf spot"> Frog eye leaf spot  </label>
+                <p><input class="w3-input w3-padding-16 w3-border" type="checkbox" id="healthy" value="healthy"></p>
+                <label for="healthy"> Healthy  </label>
+                <p><input class="w3-input w3-padding-16 w3-border" type="checkbox" id="scab" value="scab"></p>
+                <label for="scab"> Scab  </label>
+                <p><input class="w3-input w3-padding-16 w3-border" type="checkbox" id="powdery mildew" value="powdery mildew"></p>
+                <label for="powdery mildew"> Powdery mildew  </label>
+                <p><input class="w3-input w3-padding-16 w3-border" type="checkbox" id="complex" value="complex"></p>
+                <label for="complex"> Complex </label>
+                <p><button id="classifyButton" class="w3-button w3-black" type="submit" onclick="">Classify</button></p>
+            </form>
+            <p><button id="approveButton" class="w3-button w3-green" type="button" name= "approvedLabels" value="{{label}}" onclick="">Classify as: {{label}}</button></p>
+            <button id=myButton class="w3-button w3-black">Make new prediction</button>
+          </div>
+        </div>
+    </div>
+    </main>
+    
+</body>
 
 <script>
     document.getElementById("myButton").onclick = function () {
         window.location.href = "../#actions";
     };
 </script>
-    
-</html>
+
+<script src="../static/js/prediction.js"></script>
+{% endblock body %}
 
 
 

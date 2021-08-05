@@ -1,4 +1,5 @@
 from flask import Flask, render_template, Response, request
+from flask.helpers import make_response
 from flask_cors import CORS, cross_origin
 
 import model.utils as utils
@@ -14,7 +15,7 @@ app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app, resources={r"/": {"origins": "http://localhost:5000"}})
 
-# model = utils.load_tflite_model(MODEL_TFLITE)
+# model = utils.load_tflite_model(MODEL_FILENAME)
 interpreter = utils.load_tflite_interpreter(MODEL_TFLITE)
 interpreter.allocate_tensors()
 
@@ -87,6 +88,24 @@ def take_photo():
             photo_name = request.form.get('photo_name')
                                     
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+@app.route('/api/classify', methods=['POST'])
+def classify():
+    if request.method == 'POST':
+        f = utils.open_labels_csv()
+        labels = ""
+        if request.form.keys == 1:
+            labels = str(request.form.get('approvedLabels'))
+            f.write(photo_name + '.png' + ',' + labels + '\n')
+            f.close()
+        else:
+            for label in request.form.values():
+                labels += label + " "
+            labels = labels[:-1]
+            f.write(photo_name + '.png' + ',' + labels + '\n')
+            f.close()
+    return make_response(labels, 200)
 
 if __name__ == '__main__':
     app.run(debug=True)

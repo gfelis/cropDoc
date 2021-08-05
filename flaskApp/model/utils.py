@@ -2,8 +2,11 @@
 import cv2
 import numpy as np
 import tensorflow as tf
+import pandas as pd
+import os
 
 SHOTS_PATH = "flaskApp/static/shots/"
+LABELS_FILE = "labels.csv"
 
 def read_image(image_path: str) -> np.ndarray:
     return cv2.cvtColor(cv2.imread(SHOTS_PATH + image_path), cv2.COLOR_BGR2RGB)
@@ -23,3 +26,11 @@ def take_picture():
         cv2.waitKey(0)
         cv2.destroyWindow("cam-test")
         cv2.imwrite("filename.jpg",img) #save image
+
+def open_labels_csv():
+    file_path = os.path.join(SHOTS_PATH, LABELS_FILE)
+    if not os.path.exists(file_path):
+        f = open(file_path, "w")
+        f.write("image_name,labels\n")
+        f.close()
+    return open(file_path, "a")

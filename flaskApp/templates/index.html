@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+{% block body %}
+
 <body>
 
 <!-- Links (sit on top) -->
@@ -73,14 +75,6 @@
           <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Photo name" name="photo_name" required name="Name"></p>
           <input id="hiddenAction" type="hidden" name="click" value="Capture"/>
           <p><button id="captureButton" class="w3-button w3-black" type="submit" onclick=""><i class="fa fa-camera"></i></button></p>
-          <div id="myModal" class="modal" aria-hidden="true">
-            <!-- Modal content -->
-            <div class="modal-content">
-              <span class="close">&times;</span>
-              <p>Predicted ...</p>
-            </div>
-          
-          </div>
       </form>
     </div>
 
@@ -122,4 +116,5 @@
 <script src="../static/js/main.js"></script>
 
 </body>
+{% endblock body %}
 </html>
