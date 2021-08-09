@@ -54,15 +54,6 @@ def gen_frames():
         else:
             pass
 
-"""
-@app.route("/predict")
-def predict():
-    time.sleep(3)
-    image = utils.read_image(photo_name + ".png")
-    accuracy, label_predicted, rest = pred.predict(image, interpreter)
-    return render_template('prediction.html', label=label_predicted, accuracy=accuracy, photo=photo_name + ".png")
-"""
-
 @app.route("/predict")
 def predict_tflite():
     time.sleep(3)
@@ -84,10 +75,14 @@ def take_photo():
     if request.method == 'POST':
         if request.form.get('click') == 'Capture':
             global capture, photo_name
-            capture = 1
-            photo_name = request.form.get('photo_name')
-                                    
-    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+            new_img_name = request.form.get('photo_name')
+            if os.path.exists(os.path.sep.join([IMG_FOLDER, new_img_name])):
+                return make_response("Error, there already exists and image with this name.", 400)
+                # IMPROVE BAD REQUEST
+            else:
+                capture = 1
+                photo_name = new_img_name
+                return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @app.route('/api/classify', methods=['POST'])
@@ -97,14 +92,12 @@ def classify():
         labels = ""
         if request.form.keys == 1:
             labels = str(request.form.get('approvedLabels'))
-            f.write(photo_name + '.png' + ',' + labels + '\n')
-            f.close()
         else:
             for label in request.form.values():
                 labels += label + " "
             labels = labels[:-1]
-            f.write(photo_name + '.png' + ',' + labels + '\n')
-            f.close()
+        f.write(photo_name + '.png' + ',' + labels + '\n')
+        f.close()
     return make_response(labels, 200)
 
 if __name__ == '__main__':
