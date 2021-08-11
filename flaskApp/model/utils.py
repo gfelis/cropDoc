@@ -2,7 +2,6 @@
 import cv2
 import numpy as np
 import tensorflow as tf
-import pandas as pd
 import os
 
 SHOTS_PATH = "flaskApp/static/shots/"
