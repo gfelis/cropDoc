@@ -2,14 +2,10 @@ from model.utils import *
 
 import pandas as pd
 
-TF_MODEL_LABELS = ['frog_eye_leaf_spot', 'healthy', 'scab', 'complex', 'powdery_mildew', 'rust']
 TF_LITE_LABELS = ['rust', 'powdery_mildew', 'frog_eye_leaf_spot', 'complex', 'scab', 'healthy']
 
 def process(img):
     return cv2.resize(img/255.0, (512, 512)).reshape(-1, 512, 512, 3)
-
-def predict(img, model):
-    return get_class(model.layers[2](model.layers[1](model.layers[0](process(img)))).numpy()[0], TF_MODEL_LABELS)
 
 def predict_tflite(img, interpreter):
     input_details = interpreter.get_input_details()
