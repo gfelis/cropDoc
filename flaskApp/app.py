@@ -7,7 +7,6 @@ import model.predictions as pred
 
 import os, time
 
-# MODEL_FILENAME = "model.h5"
 MODEL_TFLITE = "model.tflite"
 IMG_FOLDER = "flaskApp/static/shots"
 
@@ -15,7 +14,6 @@ app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app, resources={r"/": {"origins": "http://localhost:5000"}})
 
-# model = utils.load_tflite_model(MODEL_FILENAME)
 interpreter = utils.load_tflite_interpreter(MODEL_TFLITE)
 interpreter.allocate_tensors()
 
@@ -42,7 +40,11 @@ def gen_frames():
             if capture:
                 capture = 0
                 p = os.path.sep.join([IMG_FOLDER, photo_name + ".png"])
-                utils.cv2.imwrite(p, frame)
+                print(type(frame))
+                print(frame.shape)
+                print(p)
+                retval = utils.cv2.imwrite(p, frame)
+                print(retval)
 
             try:
                 ret, buffer = utils.cv2.imencode('.jpg', frame)
