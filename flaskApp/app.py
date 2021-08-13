@@ -20,8 +20,8 @@ interpreter.allocate_tensors()
 def gstreamer_pipeline(
     capture_width=1280,
     capture_height=720,
-    display_width=1280,
-    display_height=720,
+    display_width=660,
+    display_height=420,
     framerate=60,
     flip_method=0,
 ):
