@@ -6,9 +6,10 @@ import model.utils as utils
 import model.predictions as pred
 
 import os, time
+import cv2
 
 MODEL_TFLITE = "model.tflite"
-IMG_FOLDER = "home/jetson/cropDoc/flaskApp/static/shots"
+IMG_FOLDER = "/home/jetson/cropDoc/flaskApp/static/shots"
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -20,8 +21,8 @@ interpreter.allocate_tensors()
 def gstreamer_pipeline(
     capture_width=1280,
     capture_height=720,
-    display_width=660,
-    display_height=420,
+    display_width=640,
+    display_height=480,
     framerate=60,
     flip_method=0,
 ):
@@ -47,7 +48,7 @@ def gstreamer_pipeline(
 
 
 if os.environ.get('WERKZEUG_RUN_MAIN') or Flask.debug is False:
-    camera = utils.cv2.VideoCapture(gstreamer_pipeline(flip_method=0), utils.cv2.CAP_GSTREAMER)
+    camera = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), utils.cv2.CAP_GSTREAMER)
 
 
 global capture, photo_name
@@ -57,22 +58,29 @@ switch = 1
 photo_name = None
 
 try:
-    os.mkdir('./' + IMG_FOLDER)
+    os.mkdir(IMG_FOLDER)
+    os.chmod(IMG_FOLDER, mode=0o777)
 except OSError as error:
     pass
 
 def gen_frames():
     global capture, photo_name
     while True:
-        success, frame = camera.read() 
+        success, frame = camera.read()
         if success:
             if capture:
                 capture = 0
                 p = os.path.sep.join([IMG_FOLDER, photo_name + ".png"])
-                utils.cv2.imwrite(p, frame)
+                print("Capture REACHED!!!")
+                print("Path: " + p)
+                print(type(frame))
+                print(frame.shape)
+                if os.path.isdir(IMG_FOLDER):
+                    retval = cv2.imwrite(p, frame)
+                    print("Writting done!!! Retval: " + str(retval))
 
             try:
-                ret, buffer = utils.cv2.imencode('.jpg', frame)
+                ret, buffer = cv2.imencode('.jpg', frame)
                 frame = buffer.tobytes()
                 yield (b'--frame\r\n'
                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
@@ -107,9 +115,10 @@ def take_photo():
                 return make_response("Error, there already exists and image with this name.", 400)
                 # IMPROVE BAD REQUEST
             else:
+                print("CAPTURE SWITCH SET!!!")
                 capture = 1
                 photo_name = new_img_name
-                return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+                return make_response("Taking photo...")
 
 
 @app.route('/api/classify', methods=['POST'])

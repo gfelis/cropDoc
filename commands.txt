@@ -1,0 +1,1 @@
+RESET CAMERA: sudo systemctl restart nvargus-daemon
