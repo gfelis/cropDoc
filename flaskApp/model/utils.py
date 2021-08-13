@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 import os
 
-SHOTS_PATH = "flaskApp/static/shots/"
+SHOTS_PATH = "home/jetson/cropDoc/flaskApp/static/shots/"
 LABELS_FILE = "labels.csv"
 
 def read_image(image_path: str) -> np.ndarray:

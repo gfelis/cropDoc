@@ -9,7 +9,7 @@ import os, time
 
 # MODEL_FILENAME = "model.h5"
 MODEL_TFLITE = "model.tflite"
-IMG_FOLDER = "flaskApp/static/shots"
+IMG_FOLDER = "home/jetson/cropDoc/flaskApp/static/shots"
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
