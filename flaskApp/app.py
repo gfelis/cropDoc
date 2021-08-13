@@ -7,7 +7,6 @@ import model.predictions as pred
 
 import os, time
 
-# MODEL_FILENAME = "model.h5"
 MODEL_TFLITE = "model.tflite"
 IMG_FOLDER = "home/jetson/cropDoc/flaskApp/static/shots"
 
@@ -15,7 +14,6 @@ app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app, resources={r"/": {"origins": "http://localhost:5000"}})
 
-# model = utils.load_tflite_model(MODEL_FILENAME)
 interpreter = utils.load_tflite_interpreter(MODEL_TFLITE)
 interpreter.allocate_tensors()
 
