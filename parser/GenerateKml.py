@@ -28,10 +28,12 @@ def CreateLogosKML():
             )
         )
     )
-    if os.path.exists(global_vars.kml_destination_path):
-        f = open(global_vars.kml_destination_path + 'slave_{}.kml'.format(global_vars.screen_for_logos), "w")
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, global_vars.kml_destination_path)
+
+    if os.path.exists(path):
+        f = open(path + 'slave_{}.kml'.format(global_vars.screen_for_logos), "w")
     else:
-        raise ValueError(global_vars.kml_destination_path)
+        raise ValueError(path)
     out = etree.tostring(kml, pretty_print=True).decode("utf-8")
     f.write(out)
     f.close()
@@ -67,10 +69,12 @@ def CreateFieldsKML(fields: list()) -> None:
                 )
             )
 
-    if os.path.exists(global_vars.kml_destination_path):
-        f = open(global_vars.kml_destination_path + filename, "w")
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, global_vars.kml_destination_path)
+   
+    if os.path.exists(path):
+        f = open(path + filename, "w")
     else:
-        raise ValueError(global_vars.kml_destination_path)
+        raise ValueError(path)
     out = etree.tostring(kml, pretty_print=True).decode("utf-8")
     f.write(out)
     f.close()
