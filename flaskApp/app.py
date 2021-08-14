@@ -71,7 +71,6 @@ def gen_frames():
             if capture:
                 capture = 0
                 p = os.path.sep.join([IMG_FOLDER, photo_name + ".png"])
-<<<<<<< HEAD
                 print("Capture REACHED!!!")
                 print("Path: " + p)
                 print(type(frame))
@@ -79,13 +78,6 @@ def gen_frames():
                 if os.path.isdir(IMG_FOLDER):
                     retval = cv2.imwrite(p, frame)
                     print("Writting done!!! Retval: " + str(retval))
-=======
-                print(type(frame))
-                print(frame.shape)
-                print(p)
-                retval = utils.cv2.imwrite(p, frame)
-                print(retval)
->>>>>>> main
 
             try:
                 ret, buffer = cv2.imencode('.jpg', frame)
