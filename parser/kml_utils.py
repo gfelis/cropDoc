@@ -211,7 +211,7 @@ def setLogo():
     kml += '\n   ' + '<ScreenOverlay>'
     kml += '\n    ' + '<name>Logo</name>'
     kml += '\n    ' + '<Icon>'
-    kml += '\n     ' + '<href>http://lg1:81/CD/Logos.png</href>'.format(global_vars.server_IP)
+    kml += '\n     ' + '<href>http://lg1:81/CD/Logos.png</href>'
     kml += '\n    ' + '</Icon>'
     kml += '\n    ' + '<overlayXY x=\\\"0\\\" y=\\\"1\\\" xunits=\\\"fraction\\\" yunits=\\\"fraction\\\"/>'
     kml += '\n    ' + '<screenXY x=\\\"0.02\\\" y=\\\"0.98\\\" xunits=\\\"fraction\\\" yunits=\\\"fraction\\\"/>'

@@ -15,6 +15,6 @@ command = "sshpass -p {} ssh {} mkdir {}".format(lg_pass, lg_IP, folder_target)
 print(command)
 os.system(command)
 
-command = "sshpass -p {} scp $HOME/{}cropDoc/flaskApp/static/logos/Logos.png {}:/var/www/html/CD/Logos.png".format(lg_pass, project_location, lg_IP)
+command = "sshpass -p {} scp $HOME/jetson/cropDoc/flaskApp/static/logos/Logos.png {}:/var/www/html/CD/Logos.png".format(lg_pass, lg_IP)
 print(command)
 os.system(command)
