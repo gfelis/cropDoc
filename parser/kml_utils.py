@@ -17,29 +17,16 @@ def blankKML(id):
 
 def sendKmlToLG(main, slave):
     command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" + global_vars.project_location \
-        + "Seasight-Forecasting/django/" + global_vars.kml_destination_path + main \
-        + " " + global_vars.lg_IP + ":/var/www/html/SF/" + global_vars.kml_destination_filename
+        + "CropDoc/" + global_vars.kml_destination_path + main \
+        + " " + global_vars.lg_IP + ":/var/www/html/CD/" + global_vars.kml_destination_filename
     print(command)
     os.system(command)
 
-    command = "sshpass -p {} scp $HOME/{}Seasight-Forecasting/django/seasight_forecasting/static/img/colorbar.png {}:/var/www/html/SF/colorbar.png".format(global_vars.lg_pass, global_vars.project_location, global_vars.lg_IP)
-    print(command)
-    os.system(command)
-
-    command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" + global_vars.project_location \
-        + "Seasight-Forecasting/django/" + global_vars.kml_destination_path + slave + " " \
-        + global_vars.lg_IP + ":/var/www/html/kml/slave_" + str(global_vars.screen_for_colorbar) + ".kml"
-    print(command)
-    os.system(command)
-
-    msg = "http:\/\/" + global_vars.lg_IP + ":81\/\SF\/" + global_vars.kml_destination_filename.replace("/", "\/") + "?id=" + str(int(time()*100))
+    msg = "http:\/\/" + global_vars.lg_IP + ":81\/\CD\/" + global_vars.kml_destination_filename.replace("/", "\/") + "?id=" + str(int(time()*100))
     command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
         + " \"sed -i \'1s/.*/" + msg + "/\' /var/www/html/kmls.txt\""
     print(command)
     os.system(command)
-
-def sendKmlToLGCommon(filename):
-    sendKmlToLG(filename, 'slave_{}.kml'.format(global_vars.screen_for_colorbar))
 
 def sendKmlToLGHistoric(files):
     sendKmlToLG(files[0], files[1])
@@ -50,10 +37,7 @@ def threaded_function():
     main = []
     slave = []
     for elem in files:
-        if elem.endswith('slave_{}.kml'.format(global_vars.screen_for_colorbar)):
-            slave.append(elem)
-        else:
-            main.append(elem)
+        main.append(elem)
     for elem in itertools.cycle(list(zip(main, slave))):
         sendKmlToLGHistoric(elem)
         sleep(global_vars.sleep_in_thread)
@@ -122,12 +106,12 @@ def generateOrbitFile(content, path):
 
 def sendOrbitToLG():
     command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" + global_vars.project_location \
-        + "Seasight-Forecasting/django/" + global_vars.kml_destination_path + "orbit.kml " + global_vars.lg_IP + ":/var/www/html/SF/orbit.kml"
+        + "CropDoc/" + global_vars.kml_destination_path + "orbit.kml " + global_vars.lg_IP + ":/var/www/html/CD/orbit.kml"
     print(command)
     os.system(command)
 
     command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
-        + " \"echo http://" + global_vars.lg_IP + ":81/SF/orbit.kml?id=" + str(int(time()*100)) \
+        + " \"echo http://" + global_vars.lg_IP + ":81/CD/orbit.kml?id=" + str(int(time()*100)) \
         + " >> /var/www/html/kmls.txt\""
     print(command)
     os.system(command)
@@ -190,9 +174,9 @@ def cleanSecundaryKML():
             + " " + string
         os.system(command)
 
-def removeSFFolder():
+def removeCDFolder():
     command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
-        + " rm -rf /var/www/html/SF"
+        + " rm -rf /var/www/html/CD"
     os.system(command)
 
 def cleanKMLFiles():
@@ -204,7 +188,7 @@ def cleanKMLFiles():
 def cleanAllKMLFiles():
     cleanMainKML()
     cleanSecundaryKML()
-    removeSFFolder()
+    removeCDFolder()
 
 def setLogo():
     kml = '<kml xmlns=\\\"http://www.opengis.net/kml/2.2\\\" xmlns:atom=\\\"http://www.w3.org/2005/Atom\\\" xmlns:gx=\\\"http://www.google.com/kml/ext/2.2\\\">'
@@ -214,7 +198,7 @@ def setLogo():
     kml += '\n   ' + '<ScreenOverlay>'
     kml += '\n    ' + '<name>Logo</name>'
     kml += '\n    ' + '<Icon>'
-    kml += '\n     ' + '<href>http://lg1:81/SF/Logos.png</href>'.format(global_vars.server_IP)
+    kml += '\n     ' + '<href>http://lg1:81/CD/Logos.png</href>'.format(global_vars.server_IP)
     kml += '\n    ' + '</Icon>'
     kml += '\n    ' + '<overlayXY x=\\\"0\\\" y=\\\"1\\\" xunits=\\\"fraction\\\" yunits=\\\"fraction\\\"/>'
     kml += '\n    ' + '<screenXY x=\\\"0.02\\\" y=\\\"0.98\\\" xunits=\\\"fraction\\\" yunits=\\\"fraction\\\"/>'

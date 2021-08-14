@@ -165,6 +165,9 @@ def parse_locations(df, fields):
 
 
 if __name__ == '__main__':
+
+    # TEST
+
     p = os.path.sep.join([os.path.dirname(__file__), 'xls/jorge_gil.xlsx'])
     if os.path.exists(p):
         fields = parse(p)
