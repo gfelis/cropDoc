@@ -118,8 +118,8 @@ def generateOrbitFile(content, path):
         file1.write(content)
 
 def sendOrbitToLG():
-    command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" + global_vars.project_location \
-        + "CropDoc/" + global_vars.kml_destination_path + "orbit.kml " + global_vars.lg_IP + ":/var/www/html/CD/orbit.kml"
+    command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" \
+        + "cropDoc/" + global_vars.kml_destination_path + "orbit.kml " + global_vars.lg_IP + ":/var/www/html/CD/orbit.kml"
     print(command)
     os.system(command)
 
