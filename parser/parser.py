@@ -1,6 +1,7 @@
 import io
 import zipfile
 import re
+import os
 
 from lxml import etree
 from pandas import read_csv, to_numeric
@@ -164,7 +165,12 @@ def parse_locations(df, fields):
 
 
 if __name__ == '__main__':
-    fields = parse('xls/jorge_gil.xlsx')
+
+    # TEST
+
+    p = os.path.sep.join([os.path.dirname(__file__), 'xls/jorge_gil.xlsx'])
+    if os.path.exists(p):
+        fields = parse(p)
     for field in fields:
         print(fields[field])
         print("")
