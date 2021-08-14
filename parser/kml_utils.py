@@ -22,11 +22,21 @@ def sendKmlToLG(main, slave):
     print(command)
     os.system(command)
 
+
+    command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" + global_vars.project_location \
+        + "CropDoc/" + global_vars.kml_destination_path + slave + " " \
+        + global_vars.lg_IP + ":/var/www/html/kml/slave_" + str(global_vars.screen_for_colorbar) + ".kml"
+    print(command)
+    os.system(command)
+
     msg = "http:\/\/" + global_vars.lg_IP + ":81\/\CD\/" + global_vars.kml_destination_filename.replace("/", "\/") + "?id=" + str(int(time()*100))
     command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
         + " \"sed -i \'1s/.*/" + msg + "/\' /var/www/html/kmls.txt\""
     print(command)
     os.system(command)
+
+def sendKmlToLGCommon(filename):
+    sendKmlToLG(filename, 'slave_{}.kml'.format(global_vars.screen_for_colorbar))
 
 def sendKmlToLGHistoric(files):
     sendKmlToLG(files[0], files[1])
@@ -37,7 +47,10 @@ def threaded_function():
     main = []
     slave = []
     for elem in files:
-        main.append(elem)
+        if elem.endswith('slave_{}.kml'.format(global_vars.screen_for_colorbar)):
+            slave.append(elem)
+        else:
+            main.append(elem)
     for elem in itertools.cycle(list(zip(main, slave))):
         sendKmlToLGHistoric(elem)
         sleep(global_vars.sleep_in_thread)
