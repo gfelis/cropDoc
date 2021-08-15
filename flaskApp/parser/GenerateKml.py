@@ -53,6 +53,7 @@ def CreateFieldsKML(field: utils.Field) -> None:
     print(field)
     kml.Document.Folder.append(
         KML.Placemark(
+            KML.name(field.name),
             KML.Style(
             KML.PolyStyle(
                 KML.color('#188804'),
