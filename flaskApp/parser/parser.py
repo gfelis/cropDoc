@@ -6,7 +6,7 @@ import os
 from lxml import etree
 from pandas import read_csv, to_numeric
 
-from utils import *
+from parser.utils import *
 
 import itertools
 

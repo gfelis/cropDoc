@@ -1,5 +1,5 @@
 import configparser
-import global_vars
+import parser.global_vars as global_vars
 import os
 
 def LoadConfigFile():
