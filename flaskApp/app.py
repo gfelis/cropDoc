@@ -5,6 +5,12 @@ from flask_cors import CORS, cross_origin
 import model.utils as utils
 import model.predictions as pred
 
+from ..parser.ConfigurationFile import *
+from ..parser.GenerateKml import *
+from ..parser.global_vars import *
+from ..parser.kml_utils import *
+from ..parser.parser import *
+
 import os, time
 import cv2
 
@@ -45,7 +51,7 @@ def gen_frames():
                 p = os.path.sep.join([IMG_FOLDER, photo_name + ".png"])
                 print("Taking photo...")
                 print("\tSaving on: " + p)
-                print("\tResolution: " + frame.shape)
+                print("\tResolution: " + str(frame.shape))
                 if os.path.isdir(IMG_FOLDER):
                     retval = cv2.imwrite(p, frame)
                     print("\tSaving has been succesful!") if retval else print("\tError, couldn't save image.")
@@ -85,7 +91,6 @@ def take_photo():
                 return make_response("Error, there already exists and image with this name.", 400)
                 # IMPROVE BAD REQUEST
             else:
-                print("CAPTURE SWITCH SET!!!")
                 capture = 1
                 photo_name = new_img_name
                 return make_response("Taking photo...")
@@ -105,6 +110,19 @@ def classify():
         f.write(photo_name + '.png' + ',' + labels + '\n')
         f.close()
     return make_response(labels, 200)
+
+@app.route('api/demo', methods=['POST'])
+def demo():
+    if request.method == 'POST':
+        if request.form.get('do') == 'play':
+            LoadConfigFile()
+            p = os.path.sep.join([os.path.dirname(os.path.abspath(__file__)), 'xls/jorge_gil.xlsx'])
+            if os.path.exists(p):
+                fields = parse(p)
+            for field in fields:
+                CreateKML(fields[field])
+                sendKmlToLG(global_vars.kml_destination_filename)
+                flyToField(fields[field], 1440)
 
 if __name__ == '__main__':   
     app.run(debug=True)

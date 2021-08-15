@@ -5,7 +5,7 @@ $('#classifyForm').submit(function(e){
       type: 'post',
       data:$('#classifyForm').serialize(),
       success:function(){
-        alert("worked");
+        alert("Classification has been corrected!");
       }
     });
   });
@@ -18,7 +18,7 @@ $('#approveButton').click(function(e){
         type: 'post',
         data: '&approvedLabels=' + labels,
         success:function(){
-        alert("worked");
+        alert("Classification has been approved!");
         }
     });
 });

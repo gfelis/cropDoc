@@ -4,17 +4,17 @@ import numpy as np
 import tensorflow as tf
 import os
 
-SHOTS_PATH = "/home/jetson/cropDoc/flaskApp/static/shots/"
+SHOTS_PATH = "flaskApp/static/shots/"
 LABELS_FILE = "labels.csv"
 
 def read_image(image_name: str) -> np.ndarray:
     return cv2.cvtColor(cv2.imread(SHOTS_PATH + image_name), cv2.COLOR_BGR2RGB)
     
 def load_model(file_name: str)-> tf.keras.Sequential:
-    return tf.keras.models.load_model("/home/jetson/cropDoc/flaskApp/model/" + file_name) 
+    return tf.keras.models.load_model("flaskApp/model/" + file_name) 
 
 def load_tflite_interpreter(file_name: str):
-    return tf.lite.Interpreter(model_path="/home/jetson/cropDoc/flaskApp/model/" + file_name)    
+    return tf.lite.Interpreter(model_path="flaskApp/model/" + file_name)    
 
 def open_labels_csv():
     file_path = os.path.join(SHOTS_PATH, LABELS_FILE)
