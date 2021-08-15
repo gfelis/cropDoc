@@ -150,12 +150,13 @@ def demo():
                 kml_utils.sendKmlToLG(gvars.kml_destination_filename)
                 kml_utils.flyToField(fields[field], 360)
                 time.sleep(18.2)
-    return make_response(200)
+    return make_response("OK", 200)
 
 @app.route('/api/clean', methods=['POST'])
 def clean():
+    conf.LoadConfigFile()
     kml_utils.cleanKMLFiles()
-    return make_response(200)
+    return make_response("OK", 200)
 
 if __name__ == '__main__':   
     app.run(debug=True)
