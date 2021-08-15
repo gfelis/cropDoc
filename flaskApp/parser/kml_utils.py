@@ -116,9 +116,11 @@ def sendOrbitToLG():
     print(command)
     os.system(command)
 
+    msg = "http:\/\/" + global_vars.lg_IP + ":81\/\CD\/" + global_vars.kml_destination_filename.replace("/", "\/") + "?id=" + str(int(time()*100))
+
     command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
-        + " \"sed -i \'2s/.*/ http://" + global_vars.lg_IP + ":81/CD/orbit.kml?id=" + str(int(time()*100)) \
-        + "/\' /var/www/html/kmls.txt\""
+        + " \"sed -i \'2s/.*/" + msg + "/\' /var/www/html/kmls.txt\""
+
     print(command)
     os.system(command)
 
