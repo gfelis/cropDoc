@@ -1,0 +1,28 @@
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:gx="http://www.google.com/kml/ext/2.2">
+  <Document>
+    <Folder>
+      <name>Fields</name>
+      <Placemark>
+        <Style>
+          <PolyStyle>
+            <color>#188804</color>
+            <outline>1</outline>
+          </PolyStyle>
+        </Style>
+        <Polygon>
+          <altitudeMode>absolute</altitudeMode>
+          <outerBoundaryIs>
+            <LinearRing>
+              <coordinates>0.6772669219025995,41.57308989121031,165.8633642865487
+0.6741441493576295,41.57494431854998,160.9591882543205
+0.672416164463876,41.57317193490373,168.3883379546672
+0.6755580188103649,41.57148410062739,168.689255547964
+0.6772669219025995,41.57308989121031,165.8633642865487
+</coordinates>
+            </LinearRing>
+          </outerBoundaryIs>
+        </Polygon>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>

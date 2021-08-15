@@ -10,7 +10,6 @@ lg_IP = 0
 lg_pass = ''
 screen_for_logos = 3
 logs = False
-show_verbose = False
 
 thread = False
 rotate = False

@@ -15,17 +15,10 @@ def blankKML(id):
         " </kml>\n' > /var/www/html/kml/slave_" + id + ".kml\""
     return string
 
-def sendKmlToLG(main, slave):
-    command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" + global_vars.project_location \
-        + "CropDoc/" + global_vars.kml_destination_path + main \
+def sendKmlToLG(kml_filename):
+    command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" \
+        + "cropDoc/" + global_vars.kml_destination_path + kml_filename \
         + " " + global_vars.lg_IP + ":/var/www/html/CD/" + global_vars.kml_destination_filename
-    print(command)
-    os.system(command)
-
-
-    command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" + global_vars.project_location \
-        + "CropDoc/" + global_vars.kml_destination_path + slave + " " \
-        + global_vars.lg_IP + ":/var/www/html/kml/slave_" + str(global_vars.screen_for_colorbar) + ".kml"
     print(command)
     os.system(command)
 
@@ -34,9 +27,6 @@ def sendKmlToLG(main, slave):
         + " \"sed -i \'1s/.*/" + msg + "/\' /var/www/html/kmls.txt\""
     print(command)
     os.system(command)
-
-def sendKmlToLGCommon(filename):
-    sendKmlToLG(filename, 'slave_{}.kml'.format(global_vars.screen_for_colorbar))
 
 def sendKmlToLGHistoric(files):
     sendKmlToLG(files[0], files[1])
@@ -85,14 +75,14 @@ def sendFlyToToLG(lat, lon, altitude, heading, tilt, pRange, duration):
     print(command)
     os.system(command)
 
-def createRotation(lat, lon, alt, tilt, range1):
+def createRotation(lat, lon, alt, tilt, range1, range2):
     xml = '<?xml version="1.0" encoding="UTF-8"?>'
     xml += '\n'+'<kml xmlns="http://www.opengis.net/kml/2.2"'
     xml += '\n'+'xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">'
     xml += '\n'+'<gx:Tour>'
     xml += '\n\t'+'<name>Orbit</name>'
     xml += '\n\t'+'<gx:Playlist>'
-    for i in range(0,1440,10):
+    for i in range(0, range2, 10):
         xml += '\n\t\t'+'<gx:FlyTo>'
         xml += '\n\t\t\t'+'<gx:duration>1.2</gx:duration>'
         xml += '\n\t\t\t'+'<gx:flyToMode>smooth</gx:flyToMode>'
@@ -139,23 +129,17 @@ def stopOrbit():
     print(command)
     os.system(command)
 
-def getCenterOfRegion(region):
-    lon = region.centroid.coords.xy[0][0]
-    lat = region.centroid.coords.xy[1][0]
-    return lat, lon
-
-def doRotation(latitude, longitude, altitude, pRange):
-    kml = createRotation(latitude, longitude, altitude, 5, pRange)
+def doRotation(latitude, longitude, altitude, pRange, range2):
+    kml = createRotation(latitude, longitude, altitude, 45, pRange, range2)
     generateOrbitFile(kml, global_vars.kml_destination_path + '/orbit.kml')
     sendOrbitToLG()
     sleep(1)
     startOrbit()
 
-def flyToRegion(region):
-    center_lat, center_lon = getCenterOfRegion(region)
-    sendFlyToToLG(center_lat, center_lon, 15000, 0, 0, 6000000, 2)
-    sleep(4)
-    doRotation(center_lat, center_lon, 15000, 6000000)
+def flyToField(field, range2):
+    sendFlyToToLG(field.centroid.latitude, field.centroid.longitude, 150, 0, 0, 600, 2)
+    sleep(6)
+    doRotation(field.centroid.latitude, field.centroid.longitude, 150, 600, range2)
 
 def cleanVerbose():
     fName = 'seasight_forecasting/static/scripts/verbose.txt'

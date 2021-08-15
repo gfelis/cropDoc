@@ -1,15 +1,19 @@
 import parser
 import os
-from ConfigurationFile import *
-from GenerateKml import *
+import ConfigurationFile
+import GenerateKml
+import kml_utils
+import global_vars
 
 
 
 if __name__ == '__main__':
-    LoadConfigFile()
+    ConfigurationFile.LoadConfigFile()
     p = os.path.sep.join([os.path.dirname(os.path.abspath(__file__)), 'xls/jorge_gil.xlsx'])
     if os.path.exists(p):
         fields = parser.parse(p)
-    CreateKML(fields)
-
+    GenerateKml.CreateKML(fields['Campo de Gracia'])
+    #kml_utils.sendKmlToLG("CropDoc_Demo.kml")
+    kml_utils.sendKmlToLG(global_vars.kml_destination_filename)
+    kml_utils.flyToField(fields['Campo de Gracia'], 1440)
     

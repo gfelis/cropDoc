@@ -107,12 +107,18 @@ def grouper(n, iterable):
                 return
             yield chunk 
 
+def set_centroid(field):
+    centroid = (sum([float(point.longitude) for point in field.points])/len(field.points),sum([float(point.latitude) for point in field.points])/len(field.points))
+    field.centroid = Point(centroid[0], centroid[1], 0)
+
 def parse(path):
     xlsx = XLSX(path)
     fields_df = xlsx.read('Fields (poligons)')
     locations_df = xlsx.read('Locations (arbres pins)')
     fields = parse_fields(fields_df)
     parse_locations(locations_df, fields)
+    for field in fields:
+        set_centroid(fields[field])
     return fields
 
 def parse_fields(df):

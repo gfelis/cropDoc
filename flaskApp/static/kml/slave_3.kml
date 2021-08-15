@@ -1,4 +1,4 @@
-<kml xmlns:atom="http://www.w3.org/2005/Atom" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns="http://www.opengis.net/kml/2.2">
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:gx="http://www.google.com/kml/ext/2.2">
   <Document>
     <Folder>
       <ScreenOverlay>
@@ -6,10 +6,10 @@
         <Icon>
           <href>http://lg1:81/CD/Logos.png</href>
         </Icon>
-        <overlayXY x="0" xunits="fraction" y="1" yunits="fraction"/>
-        <screenXY x="0.02" xunits="fraction" y="0.9" yunits="fraction"/>
-        <rotationXY x="0" xunits="fraction" y="0" yunits="fraction"/>
-        <size x="0.5" xunits="fraction" y="0.5" yunits="fraction"/>
+        <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
+        <screenXY x="0.02" y="0.9" xunits="fraction" yunits="fraction"/>
+        <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
+        <size x="0.5" y="0.5" xunits="fraction" yunits="fraction"/>
       </ScreenOverlay>
     </Folder>
   </Document>

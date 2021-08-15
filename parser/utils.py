@@ -8,9 +8,10 @@ class Field:
         self.region = None
         self.points : list(Point) = []
         self.locations : list(Location) = []
+        self.centroid : Point = None
 
     def __str__(self):
-        return f'{self.name} in {self.region}, {self.country}. Field: {len(self.points)}, Locations: {len(self.locations)}'
+        return f'{self.name} in {self.region}, {self.country}. Field: {len(self.points)}, Locations: {len(self.locations)}, Centroid: {self.centroid}'
 
 @dataclass
 class Point:

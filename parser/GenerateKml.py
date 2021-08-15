@@ -5,6 +5,7 @@ from lxml import etree
 from pykml.factory import KML_ElementMaker as KML
 import global_vars
 import os
+import utils
 
 def GetCoords(field):
     string = ''
@@ -38,7 +39,7 @@ def CreateLogosKML():
     f.write(out)
     f.close()
 
-def CreateFieldsKML(fields: list()) -> None:
+def CreateFieldsKML(field: utils.Field) -> None:
     kml = KML.kml(
         KML.Document(
             KML.Folder(
@@ -48,26 +49,26 @@ def CreateFieldsKML(fields: list()) -> None:
 
     filename = global_vars.kml_destination_filename
 
-    for field in fields:
-        print(fields[field])
-        kml.Document.Folder.append(
-            KML.Placemark(
-                KML.Style(
-                KML.PolyStyle(
-                    KML.color('#188804'),
-                    KML.outline(1)
-                    )
-                ),
-                KML.Polygon(
-                    KML.altitudeMode('absolute'),
-                    KML.outerBoundaryIs(
-                        KML.LinearRing(
-                            KML.coordinates(GetCoords(fields[field]))
-                            )
+    
+    print(field)
+    kml.Document.Folder.append(
+        KML.Placemark(
+            KML.Style(
+            KML.PolyStyle(
+                KML.color('#188804'),
+                KML.outline(1)
+                )
+            ),
+            KML.Polygon(
+                KML.altitudeMode('absolute'),
+                KML.outerBoundaryIs(
+                    KML.LinearRing(
+                        KML.coordinates(GetCoords(field))
                         )
                     )
                 )
             )
+        )
 
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, global_vars.kml_destination_path)
    
