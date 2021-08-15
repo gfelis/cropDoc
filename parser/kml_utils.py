@@ -131,7 +131,7 @@ def stopOrbit():
 
 def doRotation(latitude, longitude, altitude, pRange, range2):
     kml = createRotation(latitude, longitude, altitude, 45, pRange, range2)
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, global_vars.kml_destination_path, '/orbit.kml')
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, global_vars.kml_destination_path, 'orbit.kml')
     generateOrbitFile(kml, path)
     sendOrbitToLG()
     sleep(1)
