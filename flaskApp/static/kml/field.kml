@@ -1,4 +1,4 @@
-<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:gx="http://www.google.com/kml/ext/2.2">
+<kml xmlns:atom="http://www.w3.org/2005/Atom" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns="http://www.opengis.net/kml/2.2">
   <Document>
     <Folder>
       <name>Fields</name>
@@ -12,11 +12,11 @@
         <Polygon>
           <outerBoundaryIs>
             <LinearRing>
-              <coordinates>-64.01943801153408,-11.1356917482403
--64.02146715334946,-11.34130448880195
--63.73740811558478,-11.34431650460611
--63.74229856103819,-11.14851754565461
--64.01943801153408,-11.1356917482403
+              <coordinates>-5.980319183593933,37.46135477709764
+-5.979989022825638,37.4590123743429
+-5.975830098946386,37.45889619365783
+-5.9749515603162,37.46248807738638
+-5.980319183593933,37.46135477709764
 </coordinates>
             </LinearRing>
             <extrude>1</extrude>
