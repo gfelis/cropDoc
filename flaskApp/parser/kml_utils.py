@@ -35,9 +35,6 @@ def sendKmlToLG(kml_filename):
     print(command)
     os.system(command)
 
-def sendKmlToLGHistoric(files):
-    sendKmlToLG(files[0], files[1])
-
 def threaded_function():
     files = os.listdir(global_vars.kml_destination_path)
     files = [i for i in files if i.startswith('historic')]
@@ -49,7 +46,6 @@ def threaded_function():
         else:
             main.append(elem)
     for elem in itertools.cycle(list(zip(main, slave))):
-        sendKmlToLGHistoric(elem)
         sleep(global_vars.sleep_in_thread)
         if global_vars.thread == False:
             print("thread finished...exiting")
@@ -121,8 +117,8 @@ def sendOrbitToLG():
     os.system(command)
 
     command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
-        + " \"echo http://" + global_vars.lg_IP + ":81/CD/orbit.kml?id=" + str(int(time()*100)) \
-        + " >> /var/www/html/kmls.txt\""
+        + " \"sed -i \'2s/.*/ http://" + global_vars.lg_IP + ":81/CD/orbit.kml?id=" + str(int(time()*100)) \
+        + "/\' /var/www/html/kmls.txt\""
     print(command)
     os.system(command)
 
