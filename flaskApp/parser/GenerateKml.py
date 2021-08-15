@@ -97,13 +97,13 @@ def CreateFieldsKML(field: utils.Field) -> None:
                         KML.value(location.diagnose),
                         name="Diagnose:"
                     ),
-                    KML.Style(
-                        KML.BalloonStyle(
-                            KML.bgColor(color)
-                        ),    
-                    ),
-                    GX.balloonVisibility(1)
                 ),
+                KML.Style(
+                    KML.BalloonStyle(
+                        KML.bgColor(color)
+                    ),    
+                ),
+                GX.balloonVisibility(1),
                 KML.Point(
                     KML.coordinates(str(location.coord.longitude) + ',' + location.coord.latitude)
                 )
