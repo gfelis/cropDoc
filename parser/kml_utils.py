@@ -22,6 +22,13 @@ def sendKmlToLG(kml_filename):
     print(command)
     os.system(command)
 
+    # Send Logos
+    command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" \
+        + "cropDoc/" + global_vars.kml_destination_path + "slave_3.kml" " " \
+        + global_vars.lg_IP + ":/var/www/html/kml/slave_3.kml"
+    print(command)
+    os.system(command)
+
     msg = "http:\/\/" + global_vars.lg_IP + ":81\/\CD\/" + global_vars.kml_destination_filename.replace("/", "\/") + "?id=" + str(int(time()*100))
     command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
         + " \"sed -i \'1s/.*/" + msg + "/\' /var/www/html/kmls.txt\""
