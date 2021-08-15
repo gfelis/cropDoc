@@ -9,7 +9,7 @@ import os, time
 import cv2
 
 MODEL_TFLITE = "model.tflite"
-IMG_FOLDER = "/home/jetson/cropDoc/flaskApp/static/shots"
+IMG_FOLDER = "flaskApp/static/shots"
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -18,37 +18,9 @@ cors = CORS(app, resources={r"/": {"origins": "http://localhost:5000"}})
 interpreter = utils.load_tflite_interpreter(MODEL_TFLITE)
 interpreter.allocate_tensors()
 
-def gstreamer_pipeline(
-    capture_width=1280,
-    capture_height=720,
-    display_width=640,
-    display_height=480,
-    framerate=60,
-    flip_method=0,
-):
-    return (
-        "nvarguscamerasrc ! "
-        "video/x-raw(memory:NVMM), "
-        "width=(int)%d, height=(int)%d, "
-        "format=(string)NV12, framerate=(fraction)%d/1 ! "
-        "nvvidconv flip-method=%d ! "
-        "video/x-raw, width=(int)%d, height=(int)%d, format=(string)BGRx ! "
-        "videoconvert ! "
-        "video/x-raw, format=(string)BGR ! appsink"
-        % (
-            capture_width,
-            capture_height,
-            framerate,
-            flip_method,
-            display_width,
-            display_height,
-        )
-    )
-
-
 
 if os.environ.get('WERKZEUG_RUN_MAIN') or Flask.debug is False:
-    camera = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), utils.cv2.CAP_GSTREAMER)
+    camera = utils.cv2.VideoCapture(0)
 
 
 global capture, photo_name
@@ -71,14 +43,12 @@ def gen_frames():
             if capture:
                 capture = 0
                 p = os.path.sep.join([IMG_FOLDER, photo_name + ".png"])
-                print("Capture REACHED!!!")
-                print("Path: " + p)
-                print(type(frame))
-                print(frame.shape)
+                print("Taking photo...")
+                print("\tSaving on: " + p)
+                print("\tResolution: " + frame.shape)
                 if os.path.isdir(IMG_FOLDER):
                     retval = cv2.imwrite(p, frame)
-                    print("Writting done!!! Retval: " + str(retval))
-
+                    print("\tSaving has been succesful!") if retval else print("\tError, couldn't save image.")
             try:
                 ret, buffer = cv2.imencode('.jpg', frame)
                 frame = buffer.tobytes()
