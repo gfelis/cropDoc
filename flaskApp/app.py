@@ -149,6 +149,11 @@ def demo():
                 gkml.CreateKML(fields[field])
                 kml_utils.sendKmlToLG(gvars.kml_destination_filename)
                 kml_utils.flyToField(fields[field], 1440)
+                time.sleep(18.2)
+
+@app.route('api/clean_kmls', methods=['POST'])
+def cleanKML():
+    kml_utils.cleanKMLFiles()
 
 if __name__ == '__main__':   
     app.run(debug=True)

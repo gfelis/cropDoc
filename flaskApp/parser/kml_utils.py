@@ -149,24 +149,6 @@ def flyToField(field, range2):
     sleep(6)
     doRotation(field.centroid.latitude, field.centroid.longitude, 150, 600, range2)
 
-def cleanVerbose():
-    fName = 'seasight_forecasting/static/scripts/verbose.txt'
-    with open(fName, "w"):
-        pass
-
-def writeVerbose(text):
-    fName = 'seasight_forecasting/static/scripts/verbose.txt'
-    with open(fName, "a+") as f:
-        f.seek(0)
-        data = f.read()
-        if len(data) > 0 :
-            f.write("<br>")
-        f.write(text)
-
-def logprint(text):
-    if global_vars.logs:
-        print(text)
-
 def cleanMainKML():
     command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
         + " \"echo '' > /var/www/html/kmls.txt\""
@@ -185,7 +167,6 @@ def removeCDFolder():
     os.system(command)
 
 def cleanKMLFiles():
-    cleanVerbose()
     cleanMainKML()
     cleanSecundaryKML()
 

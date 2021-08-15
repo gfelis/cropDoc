@@ -23,6 +23,19 @@ $('#playDemoButton').click(function(e){
   });
 });
 
+$('#cleanKMLButton').click(function(e){
+  e.preventDefault();
+  var action = $(this).attr('value');
+  $.ajax({
+      url: '/api/clean_kmls',
+      type: 'post',
+      data: '&do=' + action,
+      success:function(){
+      alert("All KMLS cleaned");
+      }
+  });
+});
+
 document.getElementById("captureForm").onsubmit = function () {
   window.location.href = "/predict";
 };
