@@ -149,8 +149,11 @@ def flyToField(field, range2):
 
 def cleanMainKML():
     command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP + " \"echo ' ' > /var/www/html/kmls.txt\""
+    print(command)
     os.system(command)
+
     command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP + " \"echo ' ' >> /var/www/html/kmls.txt\""
+    print(command)
     os.system(command)
 
 def cleanSecundaryKML():
@@ -158,11 +161,13 @@ def cleanSecundaryKML():
         string = blankKML(str(i))
         command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
             + " " + string
+        print(command)
         os.system(command)
 
 def removeCDFolder():
     command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
         + " rm -rf /var/www/html/CD"
+    print(command)
     os.system(command)
 
 def cleanKMLFiles():
