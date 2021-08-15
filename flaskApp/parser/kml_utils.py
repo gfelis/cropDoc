@@ -24,8 +24,8 @@ def sendKmlToLG(kml_filename):
 
     # Send Logos
     command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" \
-        + "cropDoc/flaskApp/" + global_vars.kml_destination_path + "slave_" + global_vars.screen_for_logos + ".kml" " " \
-        + global_vars.lg_IP + ":/var/www/html/kml/slave_" + global_vars.screen_for_logos + ".kml"
+        + "cropDoc/flaskApp/" + global_vars.kml_destination_path + "slave_" + str(global_vars.screen_for_logos) + ".kml" " " \
+        + global_vars.lg_IP + ":/var/www/html/kml/slave_" + str(global_vars.screen_for_logos) + ".kml"
     print(command)
     os.system(command)
 
