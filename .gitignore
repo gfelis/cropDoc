@@ -2,4 +2,4 @@
 __pycache__/
 parser/xls/badly_formatted/
 shots/
-kml/
+flaskApp/statis/kml/
