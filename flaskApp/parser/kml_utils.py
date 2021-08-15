@@ -17,14 +17,14 @@ def blankKML(id):
 
 def sendKmlToLG(kml_filename):
     command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" \
-        + "cropDoc/" + global_vars.kml_destination_path + kml_filename \
+        + "cropDoc/flaskApp/" + global_vars.kml_destination_path + kml_filename \
         + " " + global_vars.lg_IP + ":/var/www/html/CD/" + global_vars.kml_destination_filename
     print(command)
     os.system(command)
 
     # Send Logos
     command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" \
-        + "cropDoc/" + global_vars.kml_destination_path + "slave_3.kml" " " \
+        + "cropDoc/flaskApp/" + global_vars.kml_destination_path + "slave_3.kml" " " \
         + global_vars.lg_IP + ":/var/www/html/kml/slave_3.kml"
     print(command)
     os.system(command)
@@ -116,7 +116,7 @@ def generateOrbitFile(content, path):
 
 def sendOrbitToLG():
     command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" \
-        + "cropDoc/" + global_vars.kml_destination_path + "orbit.kml " + global_vars.lg_IP + ":/var/www/html/CD/orbit.kml"
+        + "cropDoc/flaskApp/" + global_vars.kml_destination_path + "orbit.kml " + global_vars.lg_IP + ":/var/www/html/CD/orbit.kml"
     print(command)
     os.system(command)
 
