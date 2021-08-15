@@ -148,8 +148,9 @@ def flyToField(field, range2):
     doRotation(field.centroid.latitude, field.centroid.longitude, 150, 600, range2)
 
 def cleanMainKML():
-    command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
-        + " \"echo '' >> /var/www/html/kmls.txt\""
+    command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP + " \"echo ' ' > /var/www/html/kmls.txt\""
+    os.system(command)
+    command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP + " \"echo ' ' >> /var/www/html/kmls.txt\""
     os.system(command)
 
 def cleanSecundaryKML():
