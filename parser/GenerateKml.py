@@ -56,19 +56,26 @@ def CreateFieldsKML(field: utils.Field) -> None:
             KML.Style(
             KML.PolyStyle(
                 KML.color('#188804'),
-                KML.outline(1)
+                KML.outline(10)
                 )
             ),
             KML.Polygon(
-                KML.altitudeMode('relativeToGround'),
                 KML.outerBoundaryIs(
                     KML.LinearRing(
                         KML.coordinates(GetCoords(field))
-                        )
-                    )
+                    ),
+                    KML.extrude(1),
+                    KML.altitudeMode("relativeToGround")
+                )
+            ),
+            KML.Style(
+                KML.PolyStyle(
+                    KML.color("ff0000ff"),
+                    KML.outline(10)
                 )
             )
         )
+    )
 
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, global_vars.kml_destination_path)
    
