@@ -10,8 +10,8 @@ import utils
 def GetCoords(field):
     string = ''
     for point in field.points:
-        string += '{},{},{}\n'.format(point.longitude, point.latitude, point.altitude)
-    string += '{},{},{}\n'.format(field.points[0].longitude, field.points[0].latitude, field.points[0].altitude)
+        string += '{},{}\n'.format(point.longitude, point.latitude)
+    string += '{},{}\n'.format(field.points[0].longitude, field.points[0].latitude)
     return string
 
 def CreateLogosKML():
@@ -60,7 +60,7 @@ def CreateFieldsKML(field: utils.Field) -> None:
                 )
             ),
             KML.Polygon(
-                KML.altitudeMode('absolute'),
+                KML.altitudeMode('relativeToGround'),
                 KML.outerBoundaryIs(
                     KML.LinearRing(
                         KML.coordinates(GetCoords(field))
