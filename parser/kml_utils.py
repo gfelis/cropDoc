@@ -138,7 +138,7 @@ def doRotation(latitude, longitude, altitude, pRange, range2):
     startOrbit()
 
 def flyToField(field, range2):
-    sendFlyToToLG(field.centroid.latitude, field.centroid.longitude, 150, 0, 0, 600, 2)
+    sendFlyToToLG(field.centroid.latitude, field.centroid.longitude, 150, 0, 45, 600, 2)
     sleep(6)
     doRotation(field.centroid.latitude, field.centroid.longitude, 150, 600, range2)
 
