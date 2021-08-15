@@ -145,6 +145,7 @@ def demo():
             print(p)
             if os.path.exists(p):
                 fields = Parser.parse(p)
+            gkml.CreateLogosKML()
             for field in fields:
                 gkml.CreateKML(fields[field])
                 kml_utils.sendKmlToLG(gvars.kml_destination_filename)
@@ -158,14 +159,7 @@ def clean():
     kml_utils.cleanKMLFiles()
     return make_response("OK", 200)
 
-if __name__ == '__main__':
-    conf.LoadConfigFile()
-    p = os.path.sep.join([os.path.dirname(os.path.abspath(__file__)), 'xls/jorge_gil.xlsx'])
-    if os.path.exists(p):
-        fields = Parser.parse(p)
-    kml_utils.sendKmlToLG('test.kml')
-    kml_utils.sendFlyToToLG(39.92630256734498, 32.86942647853363, 0, -4.479240497639318, 45, 11792.58028663931, 15)
-   
+if __name__ == '__main__':   
     app.run(debug=True)
 
     

@@ -166,7 +166,7 @@ def parse_locations(df, fields):
                 continue
         field_name = row[0]
         if field_name in fields.keys():
-            fields[field_name].locations.append(Location(Point(row[1].replace("'", "."), row[2].replace("'", "."), row[3].replace("'", ".")), row[4], row[5]))
+            fields[field_name].locations.append(Location(Point(row[1].replace("'", "."), row[2].replace("'", "."), row[3].replace("'", ".")), row[4], row[5].replace("'", ".")))
         
 
 

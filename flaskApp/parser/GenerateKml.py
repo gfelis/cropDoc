@@ -3,6 +3,7 @@
 # Import libraries
 from lxml import etree
 from pykml.factory import KML_ElementMaker as KML
+from pykml.factory import GX_ElementMaker as GX
 import parser.global_vars as global_vars
 import os
 import parser.utils as utils
@@ -39,6 +40,14 @@ def CreateLogosKML():
     f.write(out)
     f.close()
 
+def getDiagnoseColor(diagnosis):
+    if 0 < float(diagnosis) and float(diagnosis) < 30:
+        return "#46F00F"
+    elif float(diagnosis) < 60:
+        return "#F0940F"
+    else:
+        return "#D12612"
+
 def CreateFieldsKML(field: utils.Field) -> None:
     kml = KML.kml(
         KML.Document(
@@ -57,7 +66,7 @@ def CreateFieldsKML(field: utils.Field) -> None:
             KML.Style(
             KML.PolyStyle(
                 KML.color('#188804'),
-                KML.outline(10)
+                KML.outline(1)
                 )
             ),
             KML.Polygon(
@@ -72,11 +81,34 @@ def CreateFieldsKML(field: utils.Field) -> None:
             KML.Style(
                 KML.PolyStyle(
                     KML.color("ff0000ff"),
-                    KML.outline(10)
+                    KML.outline(1)
                 )
             )
         )
     )
+
+    for location in field.locations:
+        color = getDiagnoseColor(location.diagnose)
+        kml.Document.Folder.append(
+            KML.Placemark(
+                KML.name(location.image),
+                KML.ExtendedData(
+                    KML.Data(
+                        KML.value(location.diagnose),
+                        name="Diagnose:"
+                    ),
+                    KML.Style(
+                        KML.BalloonStyle(
+                            KML.bgColor(color)
+                        ),    
+                    ),
+                    GX.balloonVisibility(1)
+                ),
+                KML.Point(
+                    KML.coordinates(str(location.coord.longitude) + ',' + location.coord.latitude)
+                )
+            )
+        )
 
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, global_vars.kml_destination_path)
    
