@@ -42,11 +42,11 @@ def CreateLogosKML():
 
 def getDiagnoseColor(diagnosis):
     if 0 < float(diagnosis) and float(diagnosis) < 30:
-        return "#46F00F"
+        return "5014F00A"
     elif float(diagnosis) < 60:
-        return "#F0940F"
+        return "501478FA"
     else:
-        return "#D12612"
+        return "501400FA"
 
 def CreateFieldsKML(field: utils.Field) -> None:
     kml = KML.kml(
@@ -92,12 +92,7 @@ def CreateFieldsKML(field: utils.Field) -> None:
         kml.Document.Folder.append(
             KML.Placemark(
                 KML.name(location.image),
-                KML.ExtendedData(
-                    KML.Data(
-                        KML.value(location.diagnose),
-                        name="Diagnose:"
-                    ),
-                ),
+                KML.description("Diagnose: " + location.diagnose)),
                 KML.Style(
                     KML.BalloonStyle(
                         KML.bgColor(color)
@@ -108,7 +103,6 @@ def CreateFieldsKML(field: utils.Field) -> None:
                     KML.coordinates(str(location.coord.longitude) + ',' + location.coord.latitude)
                 )
             )
-        )
 
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, global_vars.kml_destination_path)
    
