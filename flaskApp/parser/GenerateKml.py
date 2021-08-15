@@ -92,7 +92,7 @@ def CreateFieldsKML(field: utils.Field) -> None:
         kml.Document.Folder.append(
             KML.Placemark(
                 KML.name(location.image),
-                KML.description("Diagnose: " + location.diagnose)),
+                KML.description("Diagnose: " + location.diagnose),
                 KML.Style(
                     KML.BalloonStyle(
                         KML.bgColor(color)
@@ -103,6 +103,7 @@ def CreateFieldsKML(field: utils.Field) -> None:
                     KML.coordinates(str(location.coord.longitude) + ',' + location.coord.latitude)
                 )
             )
+        )
 
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, global_vars.kml_destination_path)
    
