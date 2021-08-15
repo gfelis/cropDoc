@@ -151,7 +151,7 @@ def demo():
                 kml_utils.flyToField(fields[field], 360)
                 time.sleep(18.2)
 
-@app.route('api/clean', methods=['POST'])
+@app.route('/api/clean', methods=['POST'])
 def clean():
     kml_utils.cleanKMLFiles()
 
