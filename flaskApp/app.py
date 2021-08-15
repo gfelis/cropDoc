@@ -5,11 +5,11 @@ from flask_cors import CORS, cross_origin
 import model.utils as utils
 import model.predictions as pred
 
-from ..parser.ConfigurationFile import *
-from ..parser.GenerateKml import *
-from ..parser.global_vars import *
-from ..parser.kml_utils import *
-from ..parser.parser import *
+import parser.ConfigurationFile as conf
+import parser.GenerateKml as gkml
+import parser.global_vars as gvars
+import parser.kml_utils as kml_utils
+import parser.parser as Parser
 
 import os, time
 import cv2
@@ -111,18 +111,19 @@ def classify():
         f.close()
     return make_response(labels, 200)
 
-@app.route('api/demo', methods=['POST'])
+@app.route('/api/demo', methods=['POST'])
 def demo():
     if request.method == 'POST':
         if request.form.get('do') == 'play':
-            LoadConfigFile()
-            p = os.path.sep.join([os.path.dirname(os.path.abspath(__file__)), 'xls/jorge_gil.xlsx'])
+            conf.LoadConfigFile()
+            p = os.path.sep.join([os.path.dirname(os.path.abspath(__file__)), 'static/xls/jorge_gil.xlsx'])
+            print(p)
             if os.path.exists(p):
-                fields = parse(p)
+                fields = Parser.parse(p)
             for field in fields:
-                CreateKML(fields[field])
-                sendKmlToLG(global_vars.kml_destination_filename)
-                flyToField(fields[field], 1440)
+                gkml.CreateKML(fields[field])
+                kml_utils.sendKmlToLG(gvars.kml_destination_filename)
+                kml_utils.flyToField(fields[field], 1440)
 
 if __name__ == '__main__':   
     app.run(debug=True)

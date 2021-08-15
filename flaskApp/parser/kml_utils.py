@@ -1,6 +1,6 @@
 import itertools
 import os
-import global_vars
+import parser.global_vars as global_vars
 from threading import Thread
 from time import sleep, time
 

@@ -3,9 +3,9 @@
 # Import libraries
 from lxml import etree
 from pykml.factory import KML_ElementMaker as KML
-import global_vars
+import parser.global_vars as global_vars
 import os
-import utils
+import parser.utils as utils
 
 def GetCoords(field):
     string = ''
