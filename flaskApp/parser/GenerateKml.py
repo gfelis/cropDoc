@@ -2,6 +2,7 @@
 
 # Import libraries
 from lxml import etree
+from PIL import Image, ImageDraw, ImageFont
 from pykml.factory import KML_ElementMaker as KML
 from pykml.factory import GX_ElementMaker as GX
 import parser.global_vars as global_vars
@@ -40,6 +41,70 @@ def CreateLogosKML():
     f.write(out)
     f.close()
 
+def save_stats_as_img(field):
+        img = Image.new('RGB', (1100, 1400), color = 'white')
+
+        n_healthy, n_ill, n_doubt = 0, 0, 0
+
+        for location in field.locations:
+            if float(location.diagnose) < 30:
+                n_healthy += 1
+            elif float(location.diagnose) < 60:
+                n_doubt += 1
+            else:
+                n_ill += 1
+
+        info = '\n'+'FIELD STATISTICS'+'\n'
+        info += '__________________________________'+'\n\n\n'
+        info += 'Field name: ' + f'{field.name}\n'
+        info += 'Country: ' + f'{field.country}\n'
+        info += 'Region: ' + f'{field.region}\n'
+        info += 'Number of samples: ' + f'{len(field.locations)}\n'
+        info += 'Percentage of healthy: ' + f'{n_healthy/len(field.locations) * 100}%\n'
+        info += 'Percentage of unclear: ' + f'{n_doubt/len(field.locations) * 100}% \n'
+        info += 'Percentage of ill: ' + f'{n_ill/len(field.locations) * 100}% \n'
+        print(info)
+
+        d = ImageDraw.Draw(img)
+        font = ImageFont.truetype("NotoSans-SemiCondensedMedium.ttf", 40)
+        d.text((70,70), info, fill=(0,0,0), font=font)
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, "static/images/stats.png")
+        img.save(path)
+
+def createStatisticsKML():
+    info_kml = 'slave_' + str(global_vars.screen_for_statistics) + '.kml'
+    
+    xml = '<?xml version="1.0" encoding="UTF-8"?>'
+    xml += '<kml xmlns="http://www.opengis.net/kml/2.2" '
+    xml += 'xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">'
+    xml += '\n\t'+'<Document>'
+    xml += '\n\t\t'+'<Folder>'
+    xml += '\n\t\t\t'+'<ScreenOverlay>'
+    xml += '\n\t\t\t\t'+'<name>Stats</name>'
+    xml += '\n\t\t\t\t'+'<Icon>'
+    xml += '\n\t\t\t\t\t'+'<href>http://lg1:81/CD/stats.png</href>'
+    xml += '\n\t\t\t\t'+'</Icon>'
+    xml += '\n\t\t\t\t'+'<overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>'
+    xml += '\n\t\t\t\t'+'<screenXY x="0" y="1" xunits="fraction" yunits="fraction"/>'
+    xml += '\n\t\t\t\t'+'<rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>'
+    xml += '\n\t\t\t\t'+'<size x="0" y="0" xunits="fraction" yunits="fraction"/>'
+    xml += '\n\t\t\t'+'</ScreenOverlay>'
+    xml += '\n\t\t'+'</Folder>'
+    xml += '\n\t'+'</Document>'
+    xml += '\n'+'</kml>'
+    
+    
+    print(info_kml)
+    
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, global_vars.kml_destination_path)
+
+    if os.path.exists(path):
+        f = open(path + 'slave_{}.kml'.format(global_vars.screen_for_statistics), "w")
+    else:
+        raise ValueError(path)
+    f.write(xml)
+    f.close()
+
 def getDiagnoseColor(diagnosis):
     if 0 < float(diagnosis) and float(diagnosis) < 30:
         return "5014F00A"
@@ -48,7 +113,7 @@ def getDiagnoseColor(diagnosis):
     else:
         return "501400FA"
 
-def CreateFieldsKML(field: utils.Field) -> None:
+def CreateFieldKML(field: utils.Field) -> None:
     kml = KML.kml(
         KML.Document(
             KML.Folder(
@@ -115,6 +180,6 @@ def CreateFieldsKML(field: utils.Field) -> None:
     f.write(out)
     f.close()
 
-def CreateKML(fields):
-    CreateFieldsKML(fields)
-    CreateLogosKML()
+def CreateKMLS(field):
+    CreateFieldKML(field)
+    createStatisticsKML()

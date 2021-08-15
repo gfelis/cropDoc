@@ -19,5 +19,6 @@ def LoadConfigFile():
     global_vars.lg_pass = config['INSTALLATION']['lg_pass']
     global_vars.screen_for_logos = int(config['INSTALLATION']['screen_for_logos'])
     global_vars.logs = config['INSTALLATION']['logs']
+    global_vars.screen_for_sta = config['INSTALLATION']['screen_for_statistics']
 
     print('Global variables loaded!')

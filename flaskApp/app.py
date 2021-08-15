@@ -147,7 +147,8 @@ def demo():
                 fields = Parser.parse(p)
             gkml.CreateLogosKML()
             for field in fields:
-                gkml.CreateKML(fields[field])
+                gkml.save_stats_as_img(fields[field])
+                gkml.CreateKMLS(fields[field])
                 kml_utils.sendKmlToLG(gvars.kml_destination_filename)
                 kml_utils.flyToField(fields[field], 360)
                 time.sleep(18.2)

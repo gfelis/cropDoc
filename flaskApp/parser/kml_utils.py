@@ -29,7 +29,19 @@ def sendKmlToLG(kml_filename):
     print(command)
     os.system(command)
 
-    msg = "http:\/\/" + global_vars.lg_IP + ":81\/\CD\/" + global_vars.kml_destination_filename.replace("/", "\/") + "?id=" + str(int(time()*100))
+    # Send Statistics Image
+    command = "sshpass -p {} scp $HOME/cropDoc/flaskApp/static/images/stats.png {}:/var/www/html/CD/stats.png".format(global_vars.lg_pass, global_vars.lg_IP)
+    print(command)
+    os.system(command)
+
+    # Send Statistics KML
+    command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" \
+        + "cropDoc/flaskApp/" + global_vars.kml_destination_path + "slave_" + str(global_vars.screen_for_statistics) + ".kml" " " \
+        + global_vars.lg_IP + ":/var/www/html/kml/slave_" + str(global_vars.screen_for_statistics) + ".kml"
+    print(command)
+    os.system(command)
+
+    msg = "http:\/\/" + "localhost" + ":81\/\CD\/" + global_vars.kml_destination_filename.replace("/", "\/") + "?id=" + str(int(time()*100))
     command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
         + " \"sed -i \'1s/.*/" + msg + "/\' /var/www/html/kmls.txt\""
     print(command)

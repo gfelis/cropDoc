@@ -8,8 +8,9 @@ kml_destination_filename = ''
 
 lg_IP = 0
 lg_pass = ''
-screen_for_logos = 3
+screen_for_logos = 0
 logs = False
+screen_for_statistics = 0
 
 thread = False
 rotate = False
