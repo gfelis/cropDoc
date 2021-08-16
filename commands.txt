@@ -1,1 +1,2 @@
 RESET CAMERA: sudo systemctl restart nvargus-daemon
+GITHUB TOKEN:  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

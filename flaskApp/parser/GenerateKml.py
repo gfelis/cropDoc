@@ -66,7 +66,7 @@ def save_stats_as_img(field):
         print(info)
 
         d = ImageDraw.Draw(img)
-        font = ImageFont.truetype("NotoSans-SemiCondensedMedium.ttf", 40)
+        font = ImageFont.truetype("Phetsarath_OT.ttf", 40)
         d.text((70,70), info, fill=(0,0,0), font=font)
         path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, "static/images/stats.png")
         img.save(path)
