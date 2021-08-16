@@ -34,6 +34,13 @@ def sendKmlToLG(kml_filename):
     print(command)
     os.system(command)
 
+    # Clean slave_3 KMLS
+    string = blankKML(str(global_vars.screen_for_statistics))
+    command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
+        + " " + string
+    print(command)
+    os.system(command)
+
     # Send Statistics KML
     command = "sshpass -p " + global_vars.lg_pass + " scp $HOME/" \
         + "cropDoc/flaskApp/" + global_vars.kml_destination_path + "slave_" + str(global_vars.screen_for_statistics) + ".kml" " " \
