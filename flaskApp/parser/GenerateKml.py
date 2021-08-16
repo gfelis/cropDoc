@@ -41,6 +41,10 @@ def CreateLogosKML():
     f.write(out)
     f.close()
 
+    command = "sshpass -p {} scp $HOME/cropDoc/flaskApp/static/logos/Logos.png {}:/var/www/html/CD/Logos.png".format(global_vars.lg_pass, global_vars.lg_IP)
+    print(command)
+    os.system(command)
+
 def save_stats_as_img(field):
         img = Image.new('RGB', (1100, 1400), color = 'white')
 
