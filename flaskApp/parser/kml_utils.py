@@ -35,36 +35,6 @@ def sendKmlToLG(kml_filename):
     print(command)
     os.system(command)
 
-def sendKmlToLGHistoric(files):
-    sendKmlToLG(files[0], files[1])
-
-def threaded_function():
-    files = os.listdir(global_vars.kml_destination_path)
-    files = [i for i in files if i.startswith('historic')]
-    main = []
-    slave = []
-    for elem in files:
-        if elem.endswith('slave_{}.kml'.format(global_vars.screen_for_colorbar)):
-            slave.append(elem)
-        else:
-            main.append(elem)
-    for elem in itertools.cycle(list(zip(main, slave))):
-        sendKmlToLGHistoric(elem)
-        sleep(global_vars.sleep_in_thread)
-        if global_vars.thread == False:
-            print("thread finished...exiting")
-            break
-
-def startSendKMLThread():
-    global_vars.thread = True
-    thread = Thread(target = threaded_function)
-    thread.name = 'SendKML'
-    thread.start()
-
-def stopSendKMLThread():
-    global_vars.thread = False
-    stopOrbit()
-
 def sendFlyToToLG(lat, lon, altitude, heading, tilt, pRange, duration):
     flyTo = "flytoview=<LookAt>" \
             + "<longitude>" + str(lon) + "</longitude>" \
@@ -149,24 +119,6 @@ def flyToField(field, range2):
     sleep(6)
     doRotation(field.centroid.latitude, field.centroid.longitude, 150, 600, range2)
 
-def cleanVerbose():
-    fName = 'seasight_forecasting/static/scripts/verbose.txt'
-    with open(fName, "w"):
-        pass
-
-def writeVerbose(text):
-    fName = 'seasight_forecasting/static/scripts/verbose.txt'
-    with open(fName, "a+") as f:
-        f.seek(0)
-        data = f.read()
-        if len(data) > 0 :
-            f.write("<br>")
-        f.write(text)
-
-def logprint(text):
-    if global_vars.logs:
-        print(text)
-
 def cleanMainKML():
     command = "sshpass -p " + global_vars.lg_pass + " ssh " + global_vars.lg_IP \
         + " \"echo '' > /var/www/html/kmls.txt\""
@@ -185,7 +137,6 @@ def removeCDFolder():
     os.system(command)
 
 def cleanKMLFiles():
-    cleanVerbose()
     cleanMainKML()
     cleanSecundaryKML()
 

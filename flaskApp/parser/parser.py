@@ -174,7 +174,7 @@ if __name__ == '__main__':
 
     # TEST
 
-    p = os.path.sep.join([os.path.dirname(__file__), 'xls/jorge_gil.xlsx'])
+    p = os.path.sep.join([os.path.dirname(__file__), 'xls/demo_data.xlsx'])
     if os.path.exists(p):
         fields = parse(p)
     for field in fields:
