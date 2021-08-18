@@ -18,67 +18,31 @@ CropDoc has been developed as part of the Google Summer of Code 2021 program for
 The main differences on the code of this two branches reside on the way that the camera video feed is provided. The final Liquid Galaxy demo is only on the jetson branch.
 
 ## Installation guide
-To install the project a virtual environment will be created, if you have never used virtual environments you should first learn more here: <a href="https://realpython.com/python-virtual-environments-a-primer/">What are virtual environments?</a>
-### Before Installation
+**This guide corresponds to the installation of the project on a jetson nano developer board, if you are installing on a regular computer, change to main branch.**
 
-Before installing, ensure you have any of the following virtual environments management system available:
+### Installation guidelines
 
-- Conda or miniconda <a href="https://conda.io/projects/conda/en/latest/user-guide/install/linux.html">installation guide</a>.
-- Python3 virtualenv
+Installing on the jetson nano is way more complicated and no virtual environments have been used, to avoid possible problems related to packages scopes. Using at least a 32GB SD card is recommended, for performance purposes.
 
-To install virtualenv on Linux systems, you'll need pip, a python package manager:
-```
-python3 -m pip install --upgrade pip
-```
-Then you can install virtualenv with:
-```
-pip install virtualenv
-```
+The toughest part of the installation is installing Tensorflow for jetson Nano, you can check the process here: <a href="https://docs.nvidia.com/deeplearning/frameworks/install-tf-jetson-platform/index.html"> Tensorflow installation</a>. This project is compatible with the latest version of tensorflow for the jetson platform (2.5.1).
 
-You will also need to clone the project, install git if you don't have it:
-```
-git clone https://github.com/gfelis/cropDoc.git
-```
-### Creating the virtual environment and installing
-To simplify installation, a list of required packages is provided both for conda and venv, and a virtual environment can be installed using that list.
+Once tensorflow is correcly installed, you can try to install the rest of the packages by creating a python3 virtual env like it's explained in <a href="https://github.com/gfelis/cropDoc#readme"> the main branch installation guide</a>.
 
-#### On conda:
-You can replace \<env> by the name that you want to give to your environment.
+I personally choosed to install it on the whole jetson OS, since I was the only developer using that board. 
 
+**Important:** I recommend not installing OS updates or upgrading the system, that crashed my installation and I was unable to boot the jetson board anymmore, I had to start from scratch on a new board.
+
+### Running the flask server
+
+After shuting down the flask server, make sure to reset the camera daemon, since the video stream can't be properly released when closing the server abruptly with `Ctrl + C`.
+
+To reset the camera daemon:
 ```
-conda create --name <env> --file requirements_conda.txt
+sudo systemctl restart nvargus-daemon
 ```
 
-Once created, you can activate by running:
+If you are trying to run the demo on the LG for the first time, you must first run the `setMasterFiles.py` script, to create the proper folder on the LG system. You don't need to do this for each run afterwards.
 
-```
-conda activate <env>
-```
-
-At this point, if you are still missing any package when running the Flask server, you can install it with pip. To exit the environment:
-
-```
-conda deactivate
-```
-
-#### With virtualenv:
-With the following commands first we create the environment, then we activate it and finally we install the required packages on the environment by using pip. This environment will be named "env".
-```
-python3 -m venv env
-source env/bin/activate
-pip install -r requirements_pip.txt
-```
-To exit the environment run:
-```
-deactivate
-```
-
-### Running the Flask server
-With the virtual environment activated, navigate to the cropDoc/flaskApp directory and simply run:
-```
-python3 app.py
-```
-This will start the flask server, once it's launched you can navigate to `localhost:5000` on the web browser and you should be able to see CropDoc's main page.
 ## Built with
 
 - **Deep Learning model:** Tensorflow, TensorflowLite, OpenCV, Scikit-learn, Pandas, NumPy, training done at Kaggle.
@@ -160,5 +124,3 @@ This will start the flask server, once it's launched you can navigate to `localh
 - **flaskApp/static/xls/demo_data.xlsx** contains the coordinates of the polygons and locations to be displayed on the LG.
 - **flaskApp/templates/index.html** structure for the frontEnd's base page.
 - **flaskApp/templates/prediction.html** structure for the /prediction page.
-
-
