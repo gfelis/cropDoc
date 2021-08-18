@@ -54,32 +54,6 @@ def sendKmlToLG(kml_filename):
     print(command)
     os.system(command)
 
-def threaded_function():
-    files = os.listdir(global_vars.kml_destination_path)
-    files = [i for i in files if i.startswith('historic')]
-    main = []
-    slave = []
-    for elem in files:
-        if elem.endswith('slave_{}.kml'.format(global_vars.screen_for_colorbar)):
-            slave.append(elem)
-        else:
-            main.append(elem)
-    for elem in itertools.cycle(list(zip(main, slave))):
-        sleep(global_vars.sleep_in_thread)
-        if global_vars.thread == False:
-            print("thread finished...exiting")
-            break
-
-def startSendKMLThread():
-    global_vars.thread = True
-    thread = Thread(target = threaded_function)
-    thread.name = 'SendKML'
-    thread.start()
-
-def stopSendKMLThread():
-    global_vars.thread = False
-    stopOrbit()
-
 def sendFlyToToLG(lat, lon, altitude, heading, tilt, pRange, duration):
     flyTo = "flytoview=<LookAt>" \
             + "<longitude>" + str(lon) + "</longitude>" \
