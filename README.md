@@ -160,5 +160,3 @@ This will start the flask server, once it's launched you can navigate to `localh
 - **flaskApp/static/xls/demo_data.xlsx** contains the coordinates of the polygons and locations to be displayed on the LG.
 - **flaskApp/templates/index.html** structure for the frontEnd's base page.
 - **flaskApp/templates/prediction.html** structure for the /prediction page.
-
-
