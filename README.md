@@ -2,14 +2,14 @@
 ## Google Summer of Code 2021
 ### Introduction to the project
 
-CropDoc is a Computer Vision based project that aims to help companies, competent authorities and agricultural professionals overall to detect some diseases on crops by inferring through a Deep Learning model, fed with vegetal images. The application allows the capture of such images, the display of the model results after inferring on them and displaying of this results on the Liquid Galaxy visualization system. 
+CropDoc is a Computer Vision based project that aims to help companies, competent authorities and agricultural professionals overall to detect some diseases on crops by inferring through a Deep Learning model, fed with vegetal images. The application allows the capture of such images, the display of the model results after inferring on them and displaying of this results on the Liquid Galaxy visualization system.
 
 
-<div style="text-align:center">
+<p align="center">
 <img src="flaskApp/static/logos/CropDoc-logo.png" alt="drawing" width="350"/>
 
 CropDoc has been developed as part of the Google Summer of Code 2021 program for the Liquig Galaxy organization.
-</div>
+</p>
 
 ## Repository structure
 - **Main branch:** this is the development branch, designed to be launched on a personal computer, tested on a 64-bit Ubuntu 20.04 LTS OS.
@@ -17,6 +17,68 @@ CropDoc has been developed as part of the Google Summer of Code 2021 program for
 
 The main differences on the code of this two branches reside on the way that the camera video feed is provided. The final Liquid Galaxy demo is only on the jetson branch.
 
+## Installation guide
+To install the project a virtual environment will be created, if you have never used virtual environments you should first learn more here: <a href="https://realpython.com/python-virtual-environments-a-primer/">What are virtual environments?</a>
+### Before Installation
+
+Before installing, ensure you have any of the following virtual environments management system available:
+
+- Conda or miniconda <a href="https://conda.io/projects/conda/en/latest/user-guide/install/linux.html">installation guide</a>.
+- Python3 virtualenv
+
+To install virtualenv on Linux systems, you'll need pip, a python package manager:
+```
+python3 -m pip install --upgrade pip
+```
+Then you can install virtualenv with:
+```
+pip install virtualenv
+```
+
+You will also need to clone the project, install git if you don't have it:
+```
+git clone https://github.com/gfelis/cropDoc.git
+```
+### Creating the virtual environment and installing
+To simplify installation, a list of required packages is provided both for conda and venv, and a virtual environment can be installed using that list.
+
+#### On conda:
+You can replace \<env> by the name that you want to give to your environment.
+
+```
+conda create --name <env> --file requirements_conda.txt
+```
+
+Once created, you can activate by running:
+
+```
+conda activate <env>
+```
+
+At this point, if you are still missing any package when running the Flask server, you can install it with pip. To exit the environment:
+
+```
+conda deactivate
+```
+
+#### With virtualenv:
+With the following commands first we create the environment, then we activate it and finally we install the required packages on the environment by using pip. This environment will be named "env".
+```
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements_pip.txt
+```
+To exit the environment run:
+```
+deactivate
+```
+
+### Running the Flask server
+With the virtual environment activated, navigate to the cropDoc/flaskApp directory and simply run:
+```
+python3 app.py
+```
+This will start the flask server, once it's launched you can navigate to `localhost:5000` on the web browser and you should be able to see CropDoc's main page.
 ## Built with
 
 - **Deep Learning model:** Tensorflow, TensorflowLite, OpenCV, Scikit-learn, Pandas, NumPy, training done at Kaggle.
@@ -39,7 +101,6 @@ The main differences on the code of this two branches reside on the way that the
         |   utils.py
         |   model.tflite
         ├───parser
-        |   __init__.py
         |   app.conf
         |   ConfigurationFile.py
         |   GenerateKml.py
@@ -70,21 +131,14 @@ The main differences on the code of this two branches reside on the way that the
             index.html
             prediction.html
 ```
-- **requirements_conda:** required packages for a conda virtual environment.
+## Files description
 
-```
-conda create --name <env> --file requirements_conda.txt
-```
+- **requirements_conda:** required packages for a conda virtual environment.
 - **requirements_pip.txt:** alternatively, required packages for a pip virtual environment.
-```
-python3 -m venv env
-source env/bin/activate
-pip install -r requirements.txt
-```
 - **flaskApp/app.py** flask server implementation.
 - **flaskApp/model/predictions.py** functions to perform inferrence with the model, as well as to process the resulting probabilities.
 - **flaskApp/model/utils.py** utilities to prepare the model usage.
-- **flaskApp/model/model.tflite** tensorflowLite compressed model, to fit inside the jetson board limited memmory.
+- **flaskApp/model/model.tflite** tensorflowLite compressed model, to fit inside the jetson board limited memmory. You can check how this model was developed at my <a href="https://www.kaggle.com/guillemfelis/plant-pathology-2021">kaggle notebook.</a>
 - **flaskApp/parser/app.conf** defined values for the global variables.
 - **flaskApp/parser/ConfigurationFile.py** parser to load the values of the global variables.
 - **flaskApp/parser/GenerateKML.py** functions to generate the KML files that will be sent to the Liquid Galaxy.
