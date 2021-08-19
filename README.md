@@ -26,13 +26,18 @@ Installing on the jetson nano is way more complicated and no virtual environment
 
 The toughest part of the installation is installing Tensorflow for jetson Nano, you can check the process here: <a href="https://docs.nvidia.com/deeplearning/frameworks/install-tf-jetson-platform/index.html"> Tensorflow installation</a>. This project is compatible with the latest version of tensorflow for the jetson platform (2.5.1).
 
-Once tensorflow is correcly installed, you can try to install the rest of the packages by creating a python3 virtual env like it's explained in <a href="https://github.com/gfelis/cropDoc#readme"> the main branch installation guide</a>.
+Once tensorflow is correcly installed, you need to install the rest of dependencies using pip. Package depencies include: opencv, pandas, numpy, pillow, pykml, flask and flask cors.
 
-I personally choosed to install it on the whole jetson OS, since I was the only developer using that board. 
+There's no need to create a virtual environment for this setup, I personally choosed to install it directly on the root scope since I was the only developer using that board. 
 
 **Important:** I recommend not installing OS updates or upgrading the system, that crashed my installation and I was unable to boot the jetson board anymmore, I had to start from scratch on a new board.
 
 ### Running the flask server
+
+You can start the flask server navigating to cropDoc/flaskApp/ and then running:
+```
+python3 app.py
+```
 
 After shuting down the flask server, make sure to reset the camera daemon, since the video stream can't be properly released when closing the server abruptly with `Ctrl + C`.
 
@@ -42,6 +47,10 @@ sudo systemctl restart nvargus-daemon
 ```
 
 If you are trying to run the demo on the LG for the first time, you must first run the `setMasterFiles.py` script, to create the proper folder on the LG system. You don't need to do this for each run afterwards.
+
+## User's guide
+
+For a detailed guide on the application interface, check out to the <a href="https://docs.google.com/document/d/1RHgmzBhTpD430F9Gk1A2d4GYNM8XBVVeYidUIxgw6Fw/edit?usp=sharing">user's guide</a>.
 
 ## Built with
 
