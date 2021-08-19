@@ -79,6 +79,10 @@ With the virtual environment activated, navigate to the cropDoc/flaskApp directo
 python3 app.py
 ```
 This will start the flask server, once it's launched you can navigate to `localhost:5000` on the web browser and you should be able to see CropDoc's main page.
+## User's guide
+
+For a detailed guide on the application interface, check out to the <a href="https://docs.google.com/document/d/1RHgmzBhTpD430F9Gk1A2d4GYNM8XBVVeYidUIxgw6Fw/edit?usp=sharing">user's guide</a>.
+
 ## Built with
 
 - **Deep Learning model:** Tensorflow, TensorflowLite, OpenCV, Scikit-learn, Pandas, NumPy, training done at Kaggle.
