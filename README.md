@@ -11,6 +11,10 @@ CropDoc is a Computer Vision based project that aims to help companies, competen
 CropDoc has been developed as part of the Google Summer of Code 2021 program for the Liquig Galaxy organization.
 </p>
 
+## External links
+- <a href="https://www.kaggle.com/guillemfelis/plant-pathology-2021">Google Summer of Code archive</a>, where you can check my submission for the 2021 GSOC Program as an intern at GDG Lleida.
+- <a href="https://www.kaggle.com/guillemfelis/plant-pathology-2021">Crop Doc kaggle notebook</a>, where training of the model was conducted.
+
 ## Repository structure
 - **Main branch:** this is the development branch, designed to be launched on a personal computer, tested on a 64-bit Ubuntu 20.04 LTS OS.
 - **Jetson branch:** this is the testing branch, designed to be launched on jetson board, tested on a NVIDIA Jetson Nano 2GB Developer Kit board with a Raspberry Pi v2.1 camera.
