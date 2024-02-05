@@ -12,7 +12,7 @@ CropDoc has been developed as part of the Google Summer of Code 2021 program for
 </p>
 
 ## External links
-- <a href="https://www.kaggle.com/guillemfelis/plant-pathology-2021">Google Summer of Code archive</a>, where you can check my submission for the 2021 GSOC Program as an intern at GDG Lleida.
+- <a href="https://summerofcode.withgoogle.com/archive/2021/projects/5667681595817984">Google Summer of Code archive</a>, where you can check my submission for the 2021 GSOC Program as an intern at GDG Lleida.
 - <a href="https://www.kaggle.com/guillemfelis/plant-pathology-2021">Crop Doc kaggle notebook</a>, where training of the model was conducted.
 
 ## Repository structure
